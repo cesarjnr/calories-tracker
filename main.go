@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"log"
-	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 
 	"calories-tracker/db"
@@ -14,12 +14,15 @@ import (
 func main() {
 	loadenvs()
 
+	r := gin.Default()
 	client := db.Connect()
 
 	defer client.Disconnect(context.Background())
-
-	http.HandleFunc("/nutritional-tables", nutritional_tables.CreateNutritionalTableHandler)
-	http.ListenAndServe(":8000", nil)
+	r.POST("/nutritional-tables", nutritional_tables.CreateNutritionalTableHandler)
+	r.GET("/nutritional-tables", nutritional_tables.ListNutritionalTablesHandler)
+	r.GET("/nutritional-tables/:id", nutritional_tables.FindNutritionalTableHandler)
+	r.DELETE("/nutritional-tables/:id", nutritional_tables.DeleteNutritionalTableHandler)
+	r.Run(":8000")
 }
 
 func loadenvs() {

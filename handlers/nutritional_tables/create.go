@@ -2,10 +2,10 @@ package nutritional_tables
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"calories-tracker/db"
@@ -20,13 +20,10 @@ type NutritionalTableRequestBody struct {
 	Unit          string  `json:"unit"`
 }
 
-func CreateNutritionalTableHandler(w http.ResponseWriter, r *http.Request) {
+func CreateNutritionalTableHandler(c *gin.Context) {
 	var nutritionalTableRequestBody NutritionalTableRequestBody
-	err := json.NewDecoder(r.Body).Decode(&nutritionalTableRequestBody)
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
+	c.BindJSON(&nutritionalTableRequestBody)
 
 	db := db.GetDatabase()
 	collection := db.Collection("nutritional-table")
@@ -44,18 +41,9 @@ func CreateNutritionalTableHandler(w http.ResponseWriter, r *http.Request) {
 		log.Print("Error when inserting a nutritional table")
 	}
 
-	log.Printf("Nutritional table successfully inserted: %v", result.InsertedID)
+	log.Printf("Nutritional table successfully inserted: %v", result.InsertedID.(primitive.ObjectID).Hex())
 
 	nutritionalTable.ID = result.InsertedID.(primitive.ObjectID)
-	jsonBytes, err := json.Marshal(nutritionalTable)
 
-	if err != nil {
-		log.Print("Error when marshalling the nutritional table model")
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonBytes)
+	c.JSON(http.StatusOK, nutritionalTable)
 }
