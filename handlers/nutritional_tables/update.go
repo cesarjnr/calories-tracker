@@ -23,8 +23,7 @@ type UpdateNutritionalTableRequestBody struct {
 
 func UpdateNutritionalTableHandler(c *gin.Context) {
 	var updateNutritionalTableRequestBody UpdateNutritionalTableRequestBody
-
-	collection := db.GetDatabase().Collection("nutritional-table")
+	collection := db.GetDatabase().Collection("nutritional-tables")
 	nutritionalTableId, err := primitive.ObjectIDFromHex(c.Param("id"))
 
 	c.BindJSON(&updateNutritionalTableRequestBody)

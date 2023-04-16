@@ -17,8 +17,10 @@ func Connect() *mongo.Client {
 	client, err = mongo.Connect(context.Background(), clientOptions)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error when connecting to the database: %v", err)
 	}
+
+	log.Printf("Successfully connected to database %v", client.Database(os.Getenv("DB_NAME")).Name())
 
 	return client
 }

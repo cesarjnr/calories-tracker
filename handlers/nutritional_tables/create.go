@@ -25,8 +25,7 @@ func CreateNutritionalTableHandler(c *gin.Context) {
 
 	c.BindJSON(&createNutritionalTableRequestBody)
 
-	db := db.GetDatabase()
-	collection := db.Collection("nutritional-table")
+	collection := db.GetDatabase().Collection("nutritional-tables")
 	nutritionalTable := NutritionalTable{
 		Amount:        createNutritionalTableRequestBody.Amount,
 		Calories:      createNutritionalTableRequestBody.Calories,

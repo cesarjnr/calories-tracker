@@ -14,8 +14,7 @@ import (
 )
 
 func FindNutritionalTableHandler(c *gin.Context) {
-	db := db.GetDatabase()
-	collection := db.Collection("nutritional-table")
+	collection := db.GetDatabase().Collection("nutritional-tables")
 	nutritionalTableId, err := primitive.ObjectIDFromHex(c.Param("id"))
 
 	if err != nil {

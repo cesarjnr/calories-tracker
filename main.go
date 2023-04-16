@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -29,9 +28,7 @@ func loadenvs() {
 }
 
 func connectToDatabase() {
-	client := db.Connect()
-
-	defer client.Disconnect(context.Background())
+	db.Connect()
 }
 
 func setupHandlers(r *gin.Engine) {

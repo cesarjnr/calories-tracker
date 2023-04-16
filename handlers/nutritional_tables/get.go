@@ -12,21 +12,22 @@ import (
 )
 
 func ListNutritionalTablesHandler(c *gin.Context) {
-	var nutritionalTables []NutritionalTable
-	db := db.GetDatabase()
-	collection := db.Collection("nutritional-table")
+	nutritionalTables := []NutritionalTable{}
+	collection := db.GetDatabase().Collection("nutritional-tables")
 	cursor, err := collection.Find(context.Background(), bson.D{})
 
+	log.Printf("%+v", cursor)
+
 	if err != nil {
-		log.Print("Error when getting nutritional tables")
+		log.Printf("Error when getting nutritional tables: %v", err)
 	}
 
 	defer cursor.Close(context.Background())
-
+	
 	err = cursor.All(context.Background(), &nutritionalTables)
 
 	if err != nil {
-		log.Print("Error when getting nutritional tables")
+		log.Printf("Error when getting nutritional tables: %v", err)
 	}
 
 	c.JSON(http.StatusOK, nutritionalTables)
