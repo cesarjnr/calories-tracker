@@ -11,7 +11,7 @@ import (
 	"calories-tracker/db"
 )
 
-type NutritionalTableRequestBody struct {
+type CreateNutritionalTableRequestBody struct {
 	Amount        int     `json:"amount"`
 	Calories      float32 `json:"calories"`
 	Carbohydrates float32 `json:"carbohydrates"`
@@ -21,19 +21,19 @@ type NutritionalTableRequestBody struct {
 }
 
 func CreateNutritionalTableHandler(c *gin.Context) {
-	var nutritionalTableRequestBody NutritionalTableRequestBody
+	var createNutritionalTableRequestBody CreateNutritionalTableRequestBody
 
-	c.BindJSON(&nutritionalTableRequestBody)
+	c.BindJSON(&createNutritionalTableRequestBody)
 
 	db := db.GetDatabase()
 	collection := db.Collection("nutritional-table")
 	nutritionalTable := NutritionalTable{
-		Amount:        nutritionalTableRequestBody.Amount,
-		Calories:      nutritionalTableRequestBody.Calories,
-		Carbohydrates: nutritionalTableRequestBody.Carbohydrates,
-		Product:       nutritionalTableRequestBody.Product,
-		Proteins:      nutritionalTableRequestBody.Proteins,
-		Unit:          nutritionalTableRequestBody.Unit,
+		Amount:        createNutritionalTableRequestBody.Amount,
+		Calories:      createNutritionalTableRequestBody.Calories,
+		Carbohydrates: createNutritionalTableRequestBody.Carbohydrates,
+		Product:       createNutritionalTableRequestBody.Product,
+		Proteins:      createNutritionalTableRequestBody.Proteins,
+		Unit:          createNutritionalTableRequestBody.Unit,
 	}
 	result, err := collection.InsertOne(context.Background(), nutritionalTable)
 

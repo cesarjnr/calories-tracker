@@ -20,7 +20,7 @@ func FindNutritionalTableHandler(c *gin.Context) {
 
 	if err != nil {
 		log.Printf("Error when getting the nutritional table: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
 
 		return
 	}
@@ -35,7 +35,7 @@ func FindNutritionalTableHandler(c *gin.Context) {
 		if err == mongo.ErrNoDocuments {
 			c.JSON(http.StatusNotFound, gin.H{"message": "Nutritional table not found"})
 		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error"})
 		}
 
 		return

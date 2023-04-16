@@ -21,6 +21,7 @@ func main() {
 	r.POST("/nutritional-tables", nutritional_tables.CreateNutritionalTableHandler)
 	r.GET("/nutritional-tables", nutritional_tables.ListNutritionalTablesHandler)
 	r.GET("/nutritional-tables/:id", nutritional_tables.FindNutritionalTableHandler)
+	r.PUT("/nutritional-tables/:id", nutritional_tables.UpdateNutritionalTableHandler)
 	r.DELETE("/nutritional-tables/:id", nutritional_tables.DeleteNutritionalTableHandler)
 	r.Run(":8000")
 }
